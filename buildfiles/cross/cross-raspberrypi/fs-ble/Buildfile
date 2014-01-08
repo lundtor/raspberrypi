@@ -27,12 +27,17 @@ build() {
 
    # enable bluetooth
    mkdir -p $PKG/etc/systemd/system/bluetooth.target.wants
+
    ln -s /usr/lib/systemd/system/bluetooth.service \
          $PKG/etc/systemd/system/dbus-org.bluez.service
+
    ln -s /usr/lib/systemd/system/bluetooth.service \
          $PKG/etc/systemd/system/bluetooth.target.wants/bluetooth.service
 
    # Force connman to enable bluetooth power
+   install -Dm644 $SRC/connman-config.service \
+         $PKG/etc/systemd/system/connman-config.service
+
    ln -s /etc/systemd/system/connman-config.service \
          $PKG/etc/systemd/system/multi-user.target.wants/connman-config.service
 
